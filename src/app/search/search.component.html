@@ -1,0 +1,92 @@
+<div class="input-group mb-3">
+  <input
+    type="text"
+    [(ngModel)]="texto"
+    class="form-control"
+    placeholder="Imagen"
+    aria-label="Recipient's username"
+    aria-describedby="basic-addon2"
+    name="busqueda"
+  />
+  <div class="input-group-append">
+    <button (click)="getImagenes(texto)" class="btn btn-primary" type="button">
+      Buscar
+    </button>
+  </div>
+</div>
+
+<h4>Filtrar imagen por categorias</h4>
+
+<mat-form-field appearance="fill">
+  <mat-label>Categorías</mat-label>
+  <mat-select>
+    <mat-option
+      (click)="getCategoria(category.value)"
+      *ngFor="let category of categories"
+      [value]="category.value"
+    >
+      {{ category.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Imagen</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let pic of pics">
+    <tr>
+      <td
+        (click)="
+          triggerModal(
+            modalData,
+            pic.likes,
+            pic.largeImageURL,
+            pic.views,
+            pic.tags
+          )
+        "
+      >
+        <!-- <img
+          (click)="
+            imageClick(pic.likes, pic.largeImageURL, pic.views, pic.tags)
+          "
+          src="{{ pic.previewURL }}"
+        /> -->
+
+        <div class="container">
+          <img class="image" alt="Avatar" src="{{ pic.previewURL }}" />
+          <div class="middle">
+            <div class="text">Ver Detalle</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #modalData let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Detalle de Imagen</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <app-picture></app-picture>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('Save click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
